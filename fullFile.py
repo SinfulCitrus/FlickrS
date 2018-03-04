@@ -41,10 +41,13 @@ def extract_data(source):
 
     print("\nImage links found: ",linksFound)
 
-if len(sys.argv) > 1:
-    print("\nSource: "+sys.argv[1]+"\n")
-    f = open('flickrPhotoRES_FULL.txt','w')
-    extract_data(extract_source(sys.argv[1]))
-    f.close()
-else:
-    print("You must pass in an argument.")
+def main():
+    if len(sys.argv) > 1:
+        print("\nSource: "+sys.argv[1]+"\n")
+        extract_data(extract_source(sys.argv[1]))
+    else:
+        print("You must pass in an argument.")
+
+f = open('flickrPhotoRES_FULL.txt','w')
+main()
+f.close()
