@@ -43,6 +43,7 @@ def extract_data(source):
 
 if len(sys.argv) > 1:
     print("\nSource: "+sys.argv[1]+"\n")
+    f = open('flickrPhotoRES_FULL.txt','w')
     extract_data(extract_source(sys.argv[1]))
     f.close()
 else:
