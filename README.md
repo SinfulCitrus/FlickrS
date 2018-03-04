@@ -1,3 +1,5 @@
-# FlickrS
+# FlickrS | Flickr Scraper Script
 
-# Flickr Scraper Script
+Grab links of photos at all possible resolutions.
+
+NOTE: PLEASE DO NOT DOWNLOAD IMAGES WITHOUT PRIOR AGREEMENT FROM THE OWNER OF THE IMAGES. PLEASE DO NOT ABUSE THIS SOFTWARE
