@@ -10,28 +10,40 @@ def extract_source(url):
     return r
 
 def extract_data(source):
-    f = open('flickrPhotoRES_FULL.txt','w')
+
     s_page = bs(source.content, "lxml")
     linksFound = 0
+    imageExists = 0 # only looks for the highest res image
 
+    # images are delivered through JS
     for link in s_page.findAll("script"):
-        for keyWord in {"q","t","s","m","n","z","c","l","h","k"}:
+        for keyword in ['k','h','l','c','z','n','m','s','t','q']:
+
+            # look for a specific keyword in the sites source code
             strg = str(link)
-            res = strg.find("\""+keyWord+"\":") # must work on other id's
+            res = strg.find("\""+keyword+"\":")
             start = "url\":"
             strg = strg[strg[res:].find(start)+res:]
             end = strg.find(",")
             strg = strg[6:end-1].replace("\\","")
+            
             if len(strg) > 1:
                 linksFound+=1
-                f.write(strg+"\n")
+                f.write("https:"+strg+"\n")
                 print(strg)
+                imageExists = 1
+
+            if imageExists == 1:
+                break
+
+        if imageExists == 1:
+            break
 
     print("\nImage links found: ",linksFound)
-    f.close()
 
 if len(sys.argv) > 1:
     print("\nSource: "+sys.argv[1]+"\n")
     extract_data(extract_source(sys.argv[1]))
+    f.close()
 else:
     print("You must pass in an argument.")
