@@ -17,6 +17,7 @@ def extract_data(source):
     s_page = bs(source.content, "lxml")
     linksFound = 0
     imageExists = 0 # only looks for the highest res image
+    f = open('flickrPhotoRES_FULL.txt','w')
     
     if time_test == 1:
         t0 = time.time()
@@ -24,7 +25,7 @@ def extract_data(source):
     # images are delivered through JS
     for link in s_page.findAll("script",{"class":"modelExport"}):
         for keyword in ['k','h','l','c','z','n','m','s','t','q']:
-            print("Entered")
+            
             # look for a specific keyword in the sites source code
             strg = str(link)
             res = strg.find("\""+keyword+"\":")
@@ -49,6 +50,7 @@ def extract_data(source):
         print("\nTime: ",time.time()-t0)
 
     print("\nImage links found: ",linksFound)
+    f.close()
 
 def main():
     if len(sys.argv) > 1:
@@ -57,6 +59,5 @@ def main():
     else:
         print("You must pass in an argument.")
 
-f = open('flickrPhotoRES_FULL.txt','w')
-main()
-f.close()
+if __name__ == "__main__":
+    main()
