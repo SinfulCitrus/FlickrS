@@ -4,7 +4,7 @@ import requests
 import time
 from bs4 import BeautifulSoup as bs
 
-time_test = 0
+time_test = 0 # flag for the time performance test
 
 def extract_source(url):
     # User agent for the website
@@ -12,12 +12,11 @@ def extract_source(url):
     r = requests.get(url, headers=headers)
     return r
 
-def extract_data(source):
+def extract_data(source,file):
 
     s_page = bs(source.content, "lxml")
     linksFound = 0
     imageExists = 0 # only looks for the highest res image
-    f = open('flickrPhotoRES_FULL.txt','w')
     
     if time_test == 1:
         t0 = time.time()
@@ -36,8 +35,8 @@ def extract_data(source):
             
             if len(strg) > 1:
                 linksFound+=1
-                f.write("https:"+strg+"\n")
-                print(strg)
+                file.write("https:"+strg+"\n")
+                #print(strg)
                 imageExists = 1
 
             if imageExists == 1:
@@ -49,15 +48,10 @@ def extract_data(source):
     if time_test == 1:
         print("\nTime: ",time.time()-t0)
 
-    print("\nImage links found: ",linksFound)
+    #print("\nImage links found: ",linksFound)
+
+def getPhoto(id,photo_ids):
+    f = open('flickrPhotoRES_FULL.txt','w')
+    for pid in photo_ids:
+        extract_data(extract_source("https://www.flickr.com/photos/"+str(id)+"/"+str(pid)+"/"),f)
     f.close()
-
-def main():
-    if len(sys.argv) > 1:
-        print("\nSource: "+sys.argv[1]+"\n")
-        extract_data(extract_source(sys.argv[1]))
-    else:
-        print("You must pass in an argument.")
-
-if __name__ == "__main__":
-    main()
