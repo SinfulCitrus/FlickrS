@@ -30,10 +30,10 @@ def get_json_photo(id):
         api_link = "https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=cf7c3c09f36b8243029b6b322400c817&user_id="+str(id)+"&per_page="+str(per_page)+"&page="+str(page_num)+"&format=json&nojsoncallback=1"
         with urllib.request.urlopen(api_link) as url:
             data = json.loads(url.read().decode())
-            print(Page: str(page_num))
+            print("Page: "+str(page_num))
             for inf in data['photos']['photo']:
                 photo_ids.append(inf['id'])
-            if data['photos']['pages'] is page_num or page_num is page_num+10:   # change for more pages
+            if data['photos']['pages'] is page_num or page_num is 10:   # change for more pages
                 page_limit = True
             else:
                 page_num+=1
