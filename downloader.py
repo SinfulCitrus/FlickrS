@@ -32,7 +32,7 @@ def get_json_photo(id):
             data = json.loads(url.read().decode())
             for inf in data['photos']['photo']:
                 photo_ids.append(inf['id'])
-            if data['photos']['pages'] is page_num or page_num is 1:
+            if data['photos']['pages'] is page_num or page_num is 10:   # change for more pages
                 page_limit = True
             else:
                 print(page_num)
