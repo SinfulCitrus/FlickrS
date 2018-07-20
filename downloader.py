@@ -7,9 +7,9 @@ import errno
 import fullFile
 
 # takes the photo urls stored in flickrPhotoRES_FULL.txt and downloads them to a dir /images
-def download():
+def download(name):
     f = open('flickrPhotoRES_FULL.txt','r')
-    newPath = os.getcwd()+'/images'
+    newPath = os.getcwd()+'/'+str(name)
     pathlib.Path(newPath).mkdir(parents=True, exist_ok=True)
     os.chdir(newPath)
     count = 0
@@ -25,7 +25,7 @@ def get_json_photo(id):
     per_page = 10   # number of images per page     THESE NUMBERS ARE LOW AS THIS SCRIPT IS QUITE SLOW AT THE MINUTE
     page_limit = False
 
-    photo_ids = list()
+    photo_ids = list()  # list of photo ids found
     while not page_limit:
         api_link = "https://api.flickr.com/services/rest/?method=flickr.people.getPhotos&api_key=cf7c3c09f36b8243029b6b322400c817&user_id="+str(id)+"&per_page="+str(per_page)+"&page="+str(page_num)+"&format=json&nojsoncallback=1"
         with urllib.request.urlopen(api_link) as url:
@@ -44,14 +44,18 @@ def get_json_name(name):
     api_link = "https://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=cf7c3c09f36b8243029b6b322400c817&username="+str(name)+"&format=json&nojsoncallback=1"
     with urllib.request.urlopen(api_link) as url:
         data = json.loads(url.read().decode())
-        return data['user']['id']
+        if 'user' in data and 'id' in data['user']: # check to see if the user exists
+            return data['user']['id']
+        else:
+            print("User not found.")
+            exit()
 
 def main():
     if len(sys.argv) > 1:
         print("\nSource: "+sys.argv[1]+"\n")
         name = get_json_name(sys.argv[1])
         fullFile.getPhoto(name, get_json_photo(name))
-        download()
+        download(sys.argv[1])
     else:
         print("You must pass in an argument.")
 

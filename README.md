@@ -1,7 +1,7 @@
 # FlickrS | Flickr Scraper Script
 
-Download photos from Flickr in bulk at the highet resolution.
-Use: python downloader.py <user_id>
+Download photos from Flickr in bulk at the highest resolution.
+Use: python downloader.py <username>
 
 Currently very slow and capped at 100 images, 10 images per 10 pages. You can increase these values in downloader.py.
 Personal project.
